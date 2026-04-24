@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — idpd.us</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --accent: #7c6bff;
+      --accent2: #00e5ff;
+      --text: #e8e8e8;
+      --muted: #888;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+    }
+    .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-2px); }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 5rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 2rem;
+    }
+
+    /* PROJECTS GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+    .card-tag {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.75rem;
+    }
+    .card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .card p { font-size: 0.9rem; color: var(--muted); }
+
+    /* SKILLS */
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .skill-tag {
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* ABOUT */
+    .about-text {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 620px;
+      line-height: 1.8;
+    }
+
+    /* CONTACT */
+    .contact-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .contact-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .contact-links a:hover { color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* TEST BADGE */
+    .test-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #1a1a00;
+      border: 1px solid #555500;
+      color: #cccc00;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="logo">idpd.us</span>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div class="test-badge">⚠ Test page — work in progress</div>
+    <p class="eyebrow">Portfolio</p>
+    <h1>Building things<br />that <span>actually work.</span></h1>
+    <p>
+      Welcome. This is the new home for my portfolio — replacing the old redirect.
+      Still in progress; come back soon.
+    </p>
+    <div class="btn-row">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <section id="projects">
+    <p class="section-label">Work</p>
+    <h2>Projects</h2>
+    <div class="grid">
+      <div class="card">
+        <p class="card-tag">Placeholder</p>
+        <h3>Project One</h3>
+        <p>Description of the project goes here — what it does and what tech was used.</p>
+      </div>
+      <div class="card">
+        <p class="card-tag">Placeholder</p>
+        <h3>Project Two</h3>
+        <p>Description of the project goes here — what it does and what tech was used.</p>
+      </div>
+      <div class="card">
+        <p class="card-tag">Placeholder</p>
+        <h3>Project Three</h3>
+        <p>Description of the project goes here — what it does and what tech was used.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <section id="skills">
+    <p class="section-label">Toolkit</p>
+    <h2>Skills</h2>
+    <div class="skills-list">
+      <span class="skill-tag">Skill A</span>
+      <span class="skill-tag">Skill B</span>
+      <span class="skill-tag">Skill C</span>
+      <span class="skill-tag">Skill D</span>
+      <span class="skill-tag">Skill E</span>
+      <span class="skill-tag">Add yours…</span>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <section id="about">
+    <p class="section-label">Background</p>
+    <h2>About</h2>
+    <p class="about-text">
+      A short bio goes here. Who you are, what you do, what you care about —
+      keep it human and specific to you.
+    </p>
+  </section>
+
+  <hr class="divider" />
+
+  <section id="contact">
+    <p class="section-label">Say hello</p>
+    <h2>Contact</h2>
+    <div class="contact-links">
+      <a href="mailto:you@example.com">Email</a>
+      <a href="https://github.com/" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 idpd.us — built with Claude
+  </footer>
+
+</body>
+</html>
