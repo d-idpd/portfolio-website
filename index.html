@@ -592,6 +592,7 @@
     }
     .card-img, .gallery-item img { cursor: zoom-in; }
   </style>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 
@@ -1224,5 +1225,16 @@
   </script>
   <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', function(user) {
+        if (!user) {
+          window.netlifyIdentity.on('login', function() {
+            document.location.href = '/admin/';
+          });
+        }
+      });
+    }
+  </script>
 </body>
 </html>
