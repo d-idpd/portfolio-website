@@ -342,6 +342,16 @@
       display: block;
     }
     .gallery-item img:hover { opacity: 0.85; transform: scale(1.03); }
+    .card-video-link {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--accent2);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: opacity 0.2s;
+    }
+    .card-video-link:hover { opacity: 0.75; }
     .gallery-item figcaption {
       font-size: 0.68rem;
       color: var(--muted);
@@ -966,6 +976,10 @@
         ? '<h3><a href="' + project.link + '" target="_blank" rel="noopener">' + project.title + '</a></h3>'
         : '<h3>' + project.title + '</h3>';
 
+      var videoHtml = project.video
+        ? '<a href="' + project.video + '" target="_blank" rel="noopener" class="card-video-link"><svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:middle;margin-right:5px;fill:#FF0000;"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>Watch: How it works</a>'
+        : '';
+
       return '<div class="card">' +
         imgHtml +
         '<div class="card-body">' +
@@ -973,6 +987,7 @@
           titleHtml +
           '<p>' + (project.description || '') + '</p>' +
           awardsHtml +
+          videoHtml +
         '</div>' +
         galleryHtml +
       '</div>';
@@ -997,7 +1012,8 @@
           "cover": "00-cover.jpg",
           "gallery": [],
           "awards": ["Entertainment Engineering & Design Prize", "Commercial Potential Award — 1st Place"],
-          "link": "https://oasis.library.unlv.edu/coe_senior_projects/17/"
+          "link": "https://oasis.library.unlv.edu/coe_senior_projects/17/",
+          "video": "https://www.youtube.com/watch?v=706MEM-AROY"
         }
       ],
       "maker": [
