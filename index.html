@@ -256,7 +256,25 @@
     }
 
     @media (max-width: 600px) {
-      .section-deco, .section-bg-img { display: none; }
+      .section-bg-img { display: none; }
+      .section-deco,
+      .section-deco[data-side="left"],
+      .section-deco[data-side="right"] {
+        width: 55% !important;
+        left: 22.5% !important;
+        right: auto !important;
+        top: 3rem !important;
+        margin-top: 0 !important;
+        transform: none !important;
+        transition: opacity 1.6s ease !important;
+        opacity: 0;
+      }
+      .section-deco.visible,
+      .section-deco[data-side="left"].visible,
+      .section-deco[data-side="right"].visible {
+        opacity: 0.35 !important;
+        transform: none !important;
+      }
     }
 
     /* CARDS */
@@ -930,7 +948,7 @@
           entry.target.classList.remove('visible');
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
 
     document.querySelectorAll('.section-deco, .section-bg-img, .about-img-panel').forEach(function(el) {
       revealObserver.observe(el);
@@ -940,14 +958,19 @@
     formspree('initForm', { formElement: '#contact-form', formId: 'xeevnvye' });
 
     // Dynamic project card rendering from projects.json
+    function imgSrc(path, folder) {
+      if (!path) return '';
+      return path.indexOf('/') !== -1 ? path : (folder ? folder + '/' + path : path);
+    }
+
     function buildCard(project) {
       var folder = project.folder || '';
-      var hasCover = project.cover && folder;
+      var hasCover = !!project.cover;
       var hasGallery = project.gallery && project.gallery.length > 0;
 
       var imgHtml = '';
       if (hasCover) {
-        imgHtml = '<img class="card-img" src="' + folder + '/' + project.cover + '" alt="' + project.title + '" onclick="openLightbox(this)" />';
+        imgHtml = '<img class="card-img" src="' + imgSrc(project.cover, folder) + '" alt="' + project.title + '" onclick="openLightbox(this)" />';
       }
 
       var galleryHtml = '';
@@ -956,7 +979,7 @@
         project.gallery.forEach(function(item) {
           var caption = item.caption || '';
           galleryHtml += '<figure class="gallery-item">' +
-            '<img src="' + folder + '/' + item.file + '" alt="' + caption + '" onclick="openLightbox(this)" />' +
+            '<img src="' + imgSrc(item.file, folder) + '" alt="' + caption + '" onclick="openLightbox(this)" />' +
             (caption ? '<figcaption>' + caption + '</figcaption>' : '') +
             '</figure>';
         });
@@ -1116,20 +1139,26 @@
             { "file": "04-feature-test.png", "caption": "Mechanism test" },
             { "file": "05-3d-features.png",  "caption": "3D printed parts" },
             { "file": "06-papertowel.png",   "caption": "Texture layer" },
-            { "file": "07-primer.png",       "caption": "Primed" },
-            { "file": "08-halloween.png",    "caption": "Halloween night" }
+            { "file": "07-primer.png",                          "caption": "Primed" },
+            { "file": "08-Project management helping out.png", "caption": "The PM on the job" },
+            { "file": "09-halloween.png",                      "caption": "Halloween night" }
           ]
         }
       ]
     };
 
-    (function() {
+    function renderProjects(data) {
       ['fun', 'casino', 'maker', 'designs'].forEach(function(section) {
         var grid = document.getElementById('grid-' + section);
-        if (!grid || !projectsData[section]) return;
-        grid.innerHTML = projectsData[section].map(buildCard).join('');
+        if (!grid || !data[section]) return;
+        grid.innerHTML = data[section].map(buildCard).join('');
       });
-    })();
+    }
+
+    fetch('projects.json')
+      .then(function(r) { return r.json(); })
+      .then(renderProjects)
+      .catch(function() { renderProjects(projectsData); });
 
     // ——— EASTER EGG: DevTools console message ———
     (function() {

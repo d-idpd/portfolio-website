@@ -1,0 +1,123 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "images"
+
+collections:
+  - label: "Projects"
+    name: "projects"
+    files:
+      - label: "All Projects"
+        name: "all_projects"
+        file: "projects.json"
+        fields:
+
+          - label: "Casino Projects"
+            name: "casino"
+            widget: "list"
+            label_singular: "Project"
+            summary: "{{fields.title}}"
+            fields:
+              - {label: "Title",            name: "title",       widget: "string"}
+              - {label: "Tag",              name: "tag",         widget: "string"}
+              - {label: "Description",      name: "description", widget: "text"}
+              - {label: "Cover Photo",      name: "cover",       widget: "image",  required: false}
+              - {label: "folder",           name: "folder",      widget: "hidden", required: false}
+              - label: "Gallery"
+                name: "gallery"
+                widget: "list"
+                required: false
+                summary: "{{fields.caption}}"
+                fields:
+                  - {label: "Photo",   name: "file",    widget: "image"}
+                  - {label: "Caption", name: "caption", widget: "string", required: false}
+              - label: "Awards"
+                name: "awards"
+                widget: "list"
+                required: false
+                field: {label: "Award", name: "award", widget: "string"}
+              - {label: "Project Link URL",  name: "link",  widget: "string", required: false}
+              - {label: "YouTube Video URL", name: "video", widget: "string", required: false}
+
+          - label: "Maker Projects"
+            name: "maker"
+            widget: "list"
+            label_singular: "Project"
+            summary: "{{fields.title}}"
+            fields:
+              - {label: "Title",            name: "title",       widget: "string"}
+              - {label: "Tag",              name: "tag",         widget: "string"}
+              - {label: "Description",      name: "description", widget: "text"}
+              - {label: "Cover Photo",      name: "cover",       widget: "image",  required: false}
+              - {label: "folder",           name: "folder",      widget: "hidden", required: false}
+              - label: "Gallery"
+                name: "gallery"
+                widget: "list"
+                required: false
+                summary: "{{fields.caption}}"
+                fields:
+                  - {label: "Photo",   name: "file",    widget: "image"}
+                  - {label: "Caption", name: "caption", widget: "string", required: false}
+              - label: "Awards"
+                name: "awards"
+                widget: "list"
+                required: false
+                field: {label: "Award", name: "award", widget: "string"}
+              - {label: "Project Link URL",  name: "link",  widget: "string", required: false}
+              - {label: "YouTube Video URL", name: "video", widget: "string", required: false}
+
+          - label: "One-Off Designs"
+            name: "designs"
+            widget: "list"
+            label_singular: "Project"
+            summary: "{{fields.title}}"
+            fields:
+              - {label: "Title",            name: "title",       widget: "string"}
+              - {label: "Tag",              name: "tag",         widget: "string"}
+              - {label: "Description",      name: "description", widget: "text"}
+              - {label: "Cover Photo",      name: "cover",       widget: "image",  required: false}
+              - {label: "folder",           name: "folder",      widget: "hidden", required: false}
+              - label: "Gallery"
+                name: "gallery"
+                widget: "list"
+                required: false
+                summary: "{{fields.caption}}"
+                fields:
+                  - {label: "Photo",   name: "file",    widget: "image"}
+                  - {label: "Caption", name: "caption", widget: "string", required: false}
+              - label: "Awards"
+                name: "awards"
+                widget: "list"
+                required: false
+                field: {label: "Award", name: "award", widget: "string"}
+              - {label: "Project Link URL",  name: "link",  widget: "string", required: false}
+              - {label: "YouTube Video URL", name: "video", widget: "string", required: false}
+
+          - label: "Fun & Family"
+            name: "fun"
+            widget: "list"
+            label_singular: "Project"
+            summary: "{{fields.title}}"
+            fields:
+              - {label: "Title",            name: "title",       widget: "string"}
+              - {label: "Tag",              name: "tag",         widget: "string"}
+              - {label: "Description",      name: "description", widget: "text"}
+              - {label: "Cover Photo",      name: "cover",       widget: "image",  required: false}
+              - {label: "folder",           name: "folder",      widget: "hidden", required: false}
+              - label: "Gallery"
+                name: "gallery"
+                widget: "list"
+                required: false
+                summary: "{{fields.caption}}"
+                fields:
+                  - {label: "Photo",   name: "file",    widget: "image"}
+                  - {label: "Caption", name: "caption", widget: "string", required: false}
+              - label: "Awards"
+                name: "awards"
+                widget: "list"
+                required: false
+                field: {label: "Award", name: "award", widget: "string"}
+              - {label: "Project Link URL",  name: "link",  widget: "string", required: false}
+              - {label: "YouTube Video URL", name: "video", widget: "string", required: false}
