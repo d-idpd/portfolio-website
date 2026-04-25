@@ -1,0 +1,129 @@
+{
+  "casino": [
+    {
+      "title": "Chip Tray with Hole Card Reader",
+      "tag": "Table Games Solutions / Tech Art",
+      "description": "Integrated a hole card reader into a casino chip tray. Principal designer for the reader integration and co-designer of a dual-cam locking cover that rivals any existing cover in security. One of the most popular chip trays in casinos — instrumental in Scientific Games' 2018 acquisition of Tech Art, Inc.",
+      "folder": "images/casino/chip-tray",
+      "cover": "00-cover.jpg",
+      "gallery": [],
+      "awards": ["Acquired by Scientific Games 2018"]
+    },
+    {
+      "title": "Express Layout Change",
+      "tag": "UNLV Senior Design · Fall 2013",
+      "description": "A belt-like system that secures gaming table felt without staples, eliminating a labor-intensive multi-person installation process. Lets a single technician swap table layouts quickly on the casino floor.",
+      "folder": "images/casino/express-layout",
+      "cover": "00-cover.jpg",
+      "gallery": [],
+      "awards": ["Entertainment Engineering & Design Prize", "Commercial Potential Award — 1st Place"],
+      "link": "https://oasis.library.unlv.edu/coe_senior_projects/17/"
+    }
+  ],
+
+  "maker": [
+    {
+      "title": "3rd Gen 4Runner Corner Lights",
+      "tag": "Electronics · Fabrication",
+      "description": "Custom front turning/clearance lights across multiple client-spec iterations. 3D design, plastic fabrication, 3D-printed mold tooling for casting refraction lenses, PCB design, and microcontroller programming.",
+      "folder": "images/maker/corner-lights",
+      "cover": "00-cover.jpg",
+      "gallery": []
+    },
+    {
+      "title": "Tiger Zord Tailgate Emblem",
+      "tag": "3D Modeling · Fabrication",
+      "description": "Converted 2D artwork into a 3D model, prototyped via 3D printing, then produced a waterproofed final version installed on a vehicle tailgate.",
+      "folder": "images/maker/tiger-zord",
+      "cover": "00-cover.jpg",
+      "gallery": []
+    },
+    {
+      "title": "3D Printer Filament Dryer",
+      "tag": "Fusion 360 · Tutorial",
+      "description": "Filament drying system combining off-the-shelf parts with custom 3D-printed components designed in Fusion 360. Parts on Thingiverse; full build tutorial on YouTube.",
+      "folder": "images/maker/filament-dryer",
+      "cover": "00-cover.jpg",
+      "gallery": []
+    }
+  ],
+
+  "designs": [
+    {
+      "title": "16-Foot Holiday Sleigh Prop",
+      "tag": "City of North Las Vegas",
+      "description": "Santa sleigh for the City of North Las Vegas Winter Holiday Display at Silver Mesa Recreation Center. Wheelchair accessible, engineered to disassemble and store between seasons.",
+      "folder": "images/designs/sleigh",
+      "cover": "00-cover.jpg",
+      "gallery": []
+    },
+    {
+      "title": "Lotus Esprit V8 Engine Cover Insert",
+      "tag": "Composite Materials",
+      "description": "Transparent engine cover redesign to showcase the V8. Fiberglass and polyester resin composite with polycarbonate louvers engineered to withstand engine vibration.",
+      "folder": "images/designs/lotus",
+      "cover": "00-cover.jpg",
+      "gallery": []
+    },
+    {
+      "title": "Miller Lodge Pool Table Light",
+      "tag": "Custom Lighting",
+      "description": "Custom lighting fixture for a log cabin setting. Graphics and construction style matched to the rustic aesthetic of the surroundings.",
+      "folder": "images/designs/pool-table-light",
+      "cover": "00-cover.jpg",
+      "gallery": []
+    },
+    {
+      "title": "10-Foot Mickey Mouse Ears Balloon Structure",
+      "tag": "Installation",
+      "description": "Large-scale balloon installation standing 10 feet tall with Mickey Mouse ears silhouette and full color base columns.",
+      "folder": "images/designs/balloon",
+      "cover": "00-cover.jpg",
+      "gallery": []
+    },
+    {
+      "title": "Custom Bottle Display Shelving",
+      "tag": "Millwork",
+      "description": "Bespoke wall-mounted shelving units designed and fabricated for a large bottle display collection.",
+      "folder": "images/designs/shelving",
+      "cover": "00-cover.jpg",
+      "gallery": []
+    }
+  ],
+
+  "fun": [
+    {
+      "title": "Gingerbread Holiday Decoration",
+      "tag": "Holiday · Fabrication",
+      "description": "Large-scale gingerbread-themed holiday decorations for family and community displays. Structural design built to survive outdoor conditions and repeated seasonal assembly.",
+      "folder": "images/fun/gingerbread",
+      "cover": null,
+      "gallery": []
+    },
+    {
+      "title": "Oversized Christmas Lights",
+      "tag": "Holiday · Lighting",
+      "description": "Custom giant string-light props — fabricated oversized bulbs with internal lighting for outdoor holiday displays. Designed for maximum visual impact and weather durability.",
+      "folder": "images/fun/christmas-lights",
+      "cover": null,
+      "gallery": []
+    },
+    {
+      "title": "Animated Paper Mache Pumpkin",
+      "tag": "Halloween · Animatronics · Arduino",
+      "description": "My daughter wanted to carve pumpkins way too early in the season — Halloween is serious business in our house. We made a deal: we'd build them early, but no fruit allowed. Starting from a plastic pumpkin in the garage as a base form, we built everything from scratch using paper mache. I adapted eye movement mechanics from Thingiverse, wrote custom code for randomized eye movements and candle-flicker LEDs, and implemented it all on an Arduino Nano. She took on the role of project manager and creative director — making all the important calls: the shape, exactly how angry it looks, the eye movement style, body color, and LED glow color. I handled the engineering. She handled everything that actually mattered.",
+      "folder": "images/fun/pumpkin",
+      "cover": "00-cover.png",
+      "gallery": [
+        { "file": "01-base.png",         "caption": "Paper mache base" },
+        { "file": "02-eyes-paint.png",    "caption": "Painting the eyes" },
+        { "file": "03-eyes-done.png",     "caption": "Eyes complete" },
+        { "file": "04-feature-test.png",  "caption": "Mechanism test" },
+        { "file": "05-3d-features.png",   "caption": "3D printed parts" },
+        { "file": "06-papertowel.png",    "caption": "Texture layer" },
+        { "file": "07-primer.png",        "caption": "Primed" },
+        { "file": "08-halloween.png",     "caption": "Halloween night" }
+      ]
+    }
+  ]
+}

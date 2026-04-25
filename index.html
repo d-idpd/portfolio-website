@@ -24,6 +24,17 @@
       line-height: 1.6;
     }
 
+    /* GLOBAL BACKGROUND */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url('images/runningMan1.png') center top / cover no-repeat;
+      opacity: 0.13;
+      z-index: -1;
+      pointer-events: none;
+    }
+
     /* NAV */
     nav {
       position: sticky;
@@ -47,6 +58,7 @@
       list-style: none;
       display: flex;
       gap: 2rem;
+      flex-wrap: wrap;
     }
     nav a {
       color: var(--muted);
@@ -68,8 +80,17 @@
       margin: 0 auto;
     }
     @media (max-width: 680px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-photo { display: none; }
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-photo {
+        display: flex;
+        justify-content: center;
+        order: -1;
+      }
+      .hero p { margin-left: auto; margin-right: auto; }
+      .btn-row { justify-content: center; }
     }
     .hero .eyebrow {
       font-size: 0.85rem;
@@ -118,8 +139,16 @@
     .btn-primary { background: var(--accent); color: #fff; }
     .btn-ghost { border: 1px solid var(--border); color: var(--text); }
 
+    /* SECTION OUTER — full-width positioning context for deco assets */
+    .section-outer {
+      position: relative;
+      overflow: hidden;
+    }
+
     /* SECTIONS */
     section {
+      position: relative;
+      z-index: 1;
       padding: 5rem 2rem;
       max-width: 960px;
       margin: 0 auto;
@@ -140,6 +169,94 @@
       border: none;
       border-top: 1px solid var(--border);
       margin: 0 2rem;
+    }
+
+    /* SECTION DECORATIVE ASSETS — positioned deco images (side entry) */
+    .section-deco {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 1.4s ease, transform 1.4s ease;
+    }
+    .section-deco[data-side="right"] { transform: translateX(80px); }
+    .section-deco[data-side="left"]  { transform: translateX(-80px); }
+    .section-deco.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* SECTION BG IMAGES — full-section background fill, scroll-revealed */
+    .section-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 1.8s ease;
+    }
+    .section-bg-img.visible { opacity: 0.1; }
+
+    /* ABOUT SPLIT — full-width panel with image left / text right */
+    .about-split-outer {
+      position: relative;
+      overflow: hidden;
+    }
+    .about-split-section {
+      max-width: 100% !important;
+      padding: 0 !important;
+      display: grid;
+      grid-template-columns: 44% 56%;
+      min-height: 85vh;
+    }
+    .about-img-panel {
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 1.6s ease;
+    }
+    .about-img-panel.visible { opacity: 1; }
+    .about-img-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .about-img-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 55%, var(--bg) 100%),
+                  linear-gradient(to bottom, transparent 80%, var(--bg) 100%);
+      pointer-events: none;
+    }
+    .about-text-panel {
+      padding: 5rem 4rem 5rem 3rem;
+      overflow-y: auto;
+    }
+    @media (max-width: 768px) {
+      .about-split-section {
+        grid-template-columns: 1fr;
+        min-height: unset;
+      }
+      .about-img-panel {
+        height: 55vw;
+        max-height: 320px;
+      }
+      .about-text-panel {
+        padding: 3rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section-deco, .section-bg-img { display: none; }
     }
 
     /* CARDS */
@@ -194,6 +311,44 @@
       color: var(--accent);
     }
 
+    /* PROJECT GALLERY — scrollable process image strip inside a card */
+    .card-gallery {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.75rem 1.25rem 0.9rem;
+      border-top: 1px solid var(--border);
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .card-gallery::-webkit-scrollbar { height: 3px; }
+    .card-gallery::-webkit-scrollbar-track { background: transparent; }
+    .card-gallery::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .gallery-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+    }
+    .gallery-item img {
+      width: 110px;
+      height: 82px;
+      object-fit: cover;
+      border-radius: 5px;
+      cursor: zoom-in;
+      transition: opacity 0.2s, transform 0.2s;
+      border: 1px solid var(--border);
+      display: block;
+    }
+    .gallery-item img:hover { opacity: 0.85; transform: scale(1.03); }
+    .gallery-item figcaption {
+      font-size: 0.68rem;
+      color: var(--muted);
+      width: 110px;
+      line-height: 1.3;
+    }
+
     /* SKILLS */
     .skills-list {
       display: flex;
@@ -223,6 +378,11 @@
       line-height: 1.8;
     }
     .about-text + .about-text { margin-top: 1rem; }
+    .about-text a, .about-meta a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .about-text a:hover, .about-meta a:hover { text-decoration: underline; }
     .about-meta h3 {
       font-size: 0.78rem;
       letter-spacing: 0.12em;
@@ -235,12 +395,45 @@
       color: var(--muted);
       margin-bottom: 1.5rem;
     }
+    .achieve-sub {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.5rem;
+      margin-top: -0.5rem;
+    }
+    .patent-pending {
+      display: inline-block;
+      padding: 0.1rem 0.45rem;
+      background: rgba(0,229,255,0.1);
+      border: 1px solid rgba(0,229,255,0.3);
+      border-radius: 4px;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      vertical-align: middle;
+      margin-left: 0.3rem;
+    }
+    .about-meta a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(124,107,255,0.4);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .about-meta a:hover {
+      color: var(--text);
+      border-color: var(--text);
+      text-decoration: none;
+    }
 
     /* CONTACT */
     .contact-links {
       display: flex;
       gap: 1.5rem;
       flex-wrap: wrap;
+      margin-bottom: 2.5rem;
     }
     .contact-links a {
       color: var(--muted);
@@ -249,6 +442,45 @@
       transition: color 0.2s;
     }
     .contact-links a:hover { color: var(--accent); }
+    .contact-form {
+      display: grid;
+      gap: 1rem;
+      max-width: 560px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.92rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--accent);
+    }
+    .contact-form textarea { resize: vertical; min-height: 130px; }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: var(--muted); }
+    .form-status {
+      font-size: 0.9rem;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+    }
+    .form-status.success { background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.3); color: var(--accent2); }
+    .form-status.error   { background: rgba(255,80,80,0.08);  border: 1px solid rgba(255,80,80,0.3);  color: #ff6b6b; }
+    [data-fs-success]:empty, [data-fs-error]:empty { display: none; }
+    .field-wrap { display: flex; flex-direction: column; gap: 0.25rem; }
+    .field-error { font-size: 0.8rem; color: #ff6b6b; min-height: 1em; }
+    [data-fs-field][aria-invalid="true"] { border-color: #ff6b6b; }
 
     /* FOOTER */
     footer {
@@ -268,28 +500,87 @@
       z-index: 999;
       align-items: center;
       justify-content: center;
-      cursor: zoom-out;
     }
     .lightbox.open { display: flex; }
     .lightbox img {
-      max-width: 90vw;
+      max-width: 82vw;
       max-height: 88vh;
       border-radius: 6px;
       box-shadow: 0 8px 60px rgba(0,0,0,0.6);
+      position: relative;
+      z-index: 1;
     }
-    .card-img { cursor: zoom-in; }
+    .lb-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 2.4rem;
+      line-height: 1;
+      width: 52px;
+      height: 72px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.2s;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lb-nav:hover { background: rgba(255,255,255,0.18); }
+    .lb-nav[data-dir="-1"] { left: 1.25rem; }
+    .lb-nav[data-dir="1"]  { right: 1.25rem; }
+    .lb-nav[style*="hidden"] { pointer-events: none; }
+    .lb-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 1rem;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 2;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.22); }
+    .lb-counter {
+      position: absolute;
+      bottom: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.08em;
+      z-index: 2;
+    }
+    .card-img, .gallery-item img { cursor: zoom-in; }
   </style>
 </head>
 <body>
 
   <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+  <div class="lightbox" id="lightbox">
+    <button class="lb-nav" data-dir="-1" id="lb-prev" onclick="lightboxNav(-1)">&#8249;</button>
     <img id="lightbox-img" src="" alt="" />
+    <button class="lb-nav" data-dir="1"  id="lb-next" onclick="lightboxNav(1)">&#8250;</button>
+    <button class="lb-close" id="lb-close">&#x2715;</button>
+    <span class="lb-counter" id="lb-counter"></span>
   </div>
 
   <nav>
-    <span class="logo">Dean Isaacs</span>
+    <span class="logo">Dean Isaacs</span><span id="pm-emelia" style="font-size:0.75rem;font-weight:400;color:#0d0d0d;margin-left:0.5rem;cursor:default;transition:color 0.4s,text-shadow 0.4s;user-select:none;" onclick="revealEmelia()">(PM Emelia)</span>
     <ul>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#fun">Fun</a></li>
       <li><a href="#projects">Products</a></li>
       <li><a href="#maker">Maker</a></li>
       <li><a href="#designs">Designs</a></li>
@@ -301,12 +592,12 @@
   <!-- HERO -->
   <div class="hero">
     <div class="hero-text">
-      <p class="eyebrow">Designer &amp; Engineer</p>
-      <h1>Dean Isaacs —<br /><span>Making ideas physical.</span></h1>
+      <p class="eyebrow">Designer · Builder · Leader</p>
+      <h1>Dean Isaacs —<br /><span>Making ideas a reality.</span></h1>
       <p>
-        Entertainment engineer turned product designer. From award-winning casino
-        hardware to custom fabrication and embedded electronics — I build things
-        that work in the real world.
+        Entertainment engineer turned product designer. I build things because
+        I love to — award-winning hardware, custom fabrication, embedded electronics.
+        Passionate about the craft, and building a career around it.
       </p>
       <div class="btn-row">
         <a href="#projects" class="btn btn-primary">See My Work</a>
@@ -320,263 +611,573 @@
 
   <hr class="divider" />
 
+  <!-- SKILLS -->
+  <div class="section-outer">
+    <!--
+      TODO: Add a CAD/tools deco asset here.
+      Suggested: Fusion 360 screenshot, technical drawing, or gear/wrench silhouette PNG.
+      Example:
+      <img class="section-deco" data-side="left"
+           src="images/cad-drawing.png"
+           style="width:400px; left:-60px; top:5%;"
+           alt="" />
+    -->
+    <section id="skills">
+      <p class="section-label">Toolkit</p>
+      <h2>Skills</h2>
+      <div class="skills-list">
+        <span class="skill-tag">Product Design</span>
+        <span class="skill-tag">Mechanical Engineering</span>
+        <span class="skill-tag">Entertainment Engineering</span>
+        <span class="skill-tag">Plastic Fabrication</span>
+        <span class="skill-tag">Composite Materials</span>
+        <span class="skill-tag">3D Modeling</span>
+        <span class="skill-tag">3D Printing</span>
+        <span class="skill-tag">Fusion 360</span>
+        <span class="skill-tag">PCB Design</span>
+        <span class="skill-tag">Microcontroller Programming</span>
+        <span class="skill-tag">Prototyping</span>
+        <span class="skill-tag">Casino Hardware</span>
+        <span class="skill-tag">Custom Fabrication</span>
+        <span class="skill-tag">Installation</span>
+      </div>
+    </section>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- FUN & FAMILY -->
+  <div class="section-outer">
+    <img class="section-deco" data-side="left"
+         src="images/deco/gingerbreads-debackground.png"
+         style="width:340px; left:-30px; top:50%; margin-top:-170px;"
+         alt="" />
+    <img class="section-deco" data-side="right"
+         src="images/deco/pumpkin-Trans.png"
+         style="width:360px; right:-40px; top:50%; margin-top:-180px;"
+         alt="" />
+    <section id="fun">
+      <p class="section-label">Personal Projects</p>
+      <h2>Fun &amp; Family</h2>
+      <div class="grid" id="grid-fun"></div>
+    </section>
+  </div>
+
+  <hr class="divider" />
+
   <!-- PRODUCT DEVELOPMENT -->
-  <section id="projects">
-    <p class="section-label">Product Development</p>
-    <h2>Casino &amp; Commercial Products</h2>
-    <div class="grid">
-
-      <div class="card">
-        <img class="card-img" src="images/5371122_original-1.jpg" alt="MAXTime 4H Chip Tray with Hole Card Reader" onclick="openLightbox(this)" />
-        <div class="card-body">
-          <p class="card-tag">Table Games Solutions / Tech Art</p>
-          <h3>Chip Tray with Hole Card Reader</h3>
-          <p>
-            Integrated a hole card reader into a casino chip tray. Principal designer
-            for the reader integration and co-designer of a dual-cam locking cover
-            that rivals any existing cover in security. One of the most popular chip
-            trays in casinos — instrumental in Scientific Games' 2018 acquisition of
-            Tech Art, Inc.
-          </p>
-          <div class="awards">
-            <span class="award">Acquired by Scientific Games 2018</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <img class="card-img" src="images/5294062_original-2.jpg" alt="Express Layout Change" onclick="openLightbox(this)" />
-        <div class="card-body">
-          <p class="card-tag">UNLV Senior Design · Fall 2013</p>
-          <h3>Express Layout Change</h3>
-          <p>
-            A belt-like system that secures gaming table felt without staples,
-            eliminating a labor-intensive multi-person installation process. Lets a
-            single technician swap table layouts quickly on the casino floor.
-          </p>
-          <div class="awards">
-            <span class="award">Entertainment Engineering &amp; Design Prize</span>
-            <span class="award">Commercial Potential Award — 1st Place</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
+  <div class="section-outer">
+    <img class="section-deco" data-side="right"
+         src="images/deco/cards-debackground.png"
+         style="width:340px; right:-30px; top:50%; margin-top:-170px;"
+         alt="" />
+    <section id="projects">
+      <p class="section-label">Product Development</p>
+      <h2>Casino &amp; Commercial Products</h2>
+      <div class="grid" id="grid-casino"></div>
+    </section>
+  </div>
 
   <hr class="divider" />
 
   <!-- MAKER PROJECTS -->
-  <section id="maker">
-    <p class="section-label">Maker Projects</p>
-    <h2>Miscellaneous Builds</h2>
-    <div class="grid">
-
-      <div class="card">
-        <img class="card-img" src="images/13039366_xxl-2.jpg" alt="3rd Gen 4Runner Corner Lights" onclick="openLightbox(this)" />
-        <div class="card-body">
-          <p class="card-tag">Electronics · Fabrication</p>
-          <h3>3rd Gen 4Runner Corner Lights</h3>
-          <p>
-            Custom front turning/clearance lights across multiple client-spec
-            iterations. 3D design, plastic fabrication, 3D-printed mold tooling for
-            casting refraction lenses, PCB design, and microcontroller programming.
-          </p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img class="card-img" src="images/10228822_xxl-4.jpg" alt="Tiger Zord Tailgate Emblem" onclick="openLightbox(this)" />
-        <div class="card-body">
-          <p class="card-tag">3D Modeling · Fabrication</p>
-          <h3>Tiger Zord Tailgate Emblem</h3>
-          <p>
-            Converted 2D artwork into a 3D model, prototyped via 3D printing, then
-            produced a waterproofed final version installed on a vehicle tailgate.
-          </p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img class="card-img" src="images/10180102_xl-2.jpg" alt="3D Printer Filament Dryer" onclick="openLightbox(this)" />
-        <div class="card-body">
-          <p class="card-tag">Fusion 360 · Tutorial</p>
-          <h3>3D Printer Filament Dryer</h3>
-          <p>
-            Filament drying system combining off-the-shelf parts with custom
-            3D-printed components designed in Fusion 360. Parts on Thingiverse;
-            full build tutorial on YouTube.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </section>
+  <div class="section-outer">
+    <img class="section-deco" data-side="left"
+         src="images/printers-debackground.png"
+         style="width:300px; left:-20px; top:10%;"
+         alt="" />
+    <section id="maker">
+      <p class="section-label">Maker Projects</p>
+      <h2>Miscellaneous Builds</h2>
+      <div class="grid" id="grid-maker"></div>
+    </section>
+  </div>
 
   <hr class="divider" />
 
   <!-- DESIGNS -->
-  <section id="designs">
-    <p class="section-label">Custom Fabrication &amp; Design</p>
-    <h2>One-Off Designs</h2>
-    <div class="grid">
-
-      <div class="card">
-        <img class="card-img" src="images/5280390_enlarged-2.jpg" alt="16-Foot Holiday Sleigh Prop" onclick="openLightbox(this)" />
-        <div class="card-body">
-          <p class="card-tag">City of North Las Vegas</p>
-          <h3>16-Foot Holiday Sleigh Prop</h3>
-          <p>
-            Santa sleigh for the City of North Las Vegas Winter Holiday Display at
-            Silver Mesa Recreation Center. Wheelchair accessible, engineered to
-            disassemble and store between seasons.
-          </p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img class="card-img" src="images/5294342_xxl-1.jpg" alt="Lotus Esprit V8 Engine Cover Insert" onclick="openLightbox(this)" />
-        <div class="card-body">
-          <p class="card-tag">Composite Materials</p>
-          <h3>Lotus Esprit V8 Engine Cover Insert</h3>
-          <p>
-            Transparent engine cover redesign to showcase the V8. Fiberglass and
-            polyester resin composite with polycarbonate louvers engineered to
-            withstand engine vibration.
-          </p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img class="card-img" src="images/5294206_enlarged-4.jpg" alt="Rustic Cabin Pool Table Light" onclick="openLightbox(this)" />
-        <div class="card-body">
-          <p class="card-tag">Custom Lighting</p>
-          <h3>Miller Lodge Pool Table Light</h3>
-          <p>
-            Custom lighting fixture for a log cabin setting. Graphics and
-            construction style matched to the rustic aesthetic of the surroundings.
-          </p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img class="card-img" src="images/5280406_xl-1.jpg" alt="Mickey Mouse Ears Balloon Structure" onclick="openLightbox(this)" />
-        <div class="card-body">
-          <p class="card-tag">Installation</p>
-          <h3>10-Foot Mickey Mouse Ears Balloon Structure</h3>
-          <p>
-            Large-scale balloon installation standing 10 feet tall with Mickey
-            Mouse ears silhouette and full color base columns.
-          </p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img class="card-img" src="images/5298398_original-1.jpg" alt="Custom Bottle Display Shelving" onclick="openLightbox(this)" />
-        <div class="card-body">
-          <p class="card-tag">Millwork</p>
-          <h3>Custom Bottle Display Shelving</h3>
-          <p>
-            Bespoke wall-mounted shelving units designed and fabricated for a large
-            bottle display collection.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </section>
+  <div class="section-outer">
+    <!--
+      TODO: Add a fabrication/design deco asset here.
+      Suggested: blueprint/CAD line drawing or technical sketch PNG, ~350px wide.
+      Example:
+      <img class="section-deco" data-side="right"
+           src="images/blueprint.png"
+           style="width:350px; right:-40px; bottom:10%;"
+           alt="" />
+    -->
+    <section id="designs">
+      <p class="section-label">Custom Fabrication &amp; Design</p>
+      <h2>One-Off Designs</h2>
+      <div class="grid" id="grid-designs"></div>
+    </section>
+  </div>
 
   <hr class="divider" />
 
-  <!-- SKILLS -->
-  <section id="skills">
-    <p class="section-label">Toolkit</p>
-    <h2>Skills</h2>
-    <div class="skills-list">
-      <span class="skill-tag">Product Design</span>
-      <span class="skill-tag">Mechanical Engineering</span>
-      <span class="skill-tag">Entertainment Engineering</span>
-      <span class="skill-tag">Plastic Fabrication</span>
-      <span class="skill-tag">Composite Materials</span>
-      <span class="skill-tag">3D Modeling</span>
-      <span class="skill-tag">3D Printing</span>
-      <span class="skill-tag">Fusion 360</span>
-      <span class="skill-tag">PCB Design</span>
-      <span class="skill-tag">Microcontroller Programming</span>
-      <span class="skill-tag">Prototyping</span>
-      <span class="skill-tag">Casino Hardware</span>
-      <span class="skill-tag">Custom Fabrication</span>
-      <span class="skill-tag">Installation</span>
-    </div>
-  </section>
+  <!-- ABOUT — full-width split: photo left, text right -->
+  <div class="section-outer about-split-outer">
+    <section id="about" class="about-split-section">
 
-  <hr class="divider" />
+      <div class="about-img-panel" id="about-img-panel">
+        <img src="images/runningMan2.png" alt="Dean Isaacs" />
+      </div>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <p class="section-label">Background</p>
-    <h2>About Me</h2>
-    <div class="about-grid">
-      <div>
+      <div class="about-text-panel">
+        <p class="section-label">Background</p>
+        <h2>About Me</h2>
+
         <p class="about-text">
           I'm a designer and engineer with roots in entertainment engineering and
           product development. My interest in making things physical came early —
           my father worked in custom plastics fabrication and design, and my mother
-          in decorative arts.
+          in decorative arts and education.
         </p>
         <p class="about-text" style="margin-top:1rem;">
-          After studying mechanical engineering I transferred into UNLV's
-          Entertainment Engineering and Design program, where my senior project
-          went on to win multiple awards and eventually became a commercial product
-          in use across casinos. I later joined Tech Art, Inc. — a table games
-          solutions company — where I worked as a designer and engineer until the
-          company was acquired by Scientific Games in 2018.
+          I joined Tech Art, Inc. — a table games solutions company — full time
+          while still in high school, and kept working there through college.
+          At UNLV I started in mechanical engineering, then transferred into the
+          <a href="https://www.unlv.edu/eed" target="_blank" rel="noopener">Entertainment Engineering &amp; Design program</a>
+          — a better fit for the hands-on, design-heavy work I was already doing.
+          My <a href="https://oasis.library.unlv.edu/coe_senior_projects/17/" target="_blank" rel="noopener">senior design project</a> won multiple awards and
+          grew directly from the casino gaming world my family has always been part of.
         </p>
-      </div>
-      <div class="about-meta">
-        <h3>Education</h3>
-        <p>B.S. Entertainment Engineering &amp; Design<br />University of Nevada, Las Vegas</p>
-
-        <h3>Experience</h3>
-        <p>Tech Art, Inc. (Table Games Solutions)<br />Acquired by Scientific Games, 2018</p>
-
-        <h3>Awards</h3>
-        <p>
-          Entertainment Engineering &amp; Design Prize<br />
-          Commercial Potential Award — 1st Place<br />
-          UNLV College of Engineering, Fall 2013
+        <p class="about-text" style="margin-top:1rem;">
+          While working full time at Tech Art I was the principal designer on the
+          <a href="#projects">Chip Tray with Hole Card Reader</a> — a product now
+          deployed on tens of thousands of Blackjack tables across North America and
+          the subject of a granted US patent. That work was a key part of Scientific
+          Games' 2018 acquisition of Tech Art. Following the acquisition I transitioned
+          into product management — promoted from Associate PM to Product Manager for
+          the Proprietary Table Games &amp; Progressives portfolio, owning the full
+          product lifecycle from concept through compliance and field deployment.
         </p>
+        <p class="about-text" style="margin-top:1rem;">
+          In January 2022 I joined Las Vegas Sands'
+          <strong>Sands Digital Services</strong> division as a hardware engineer.
+          Promoted to Director of Hardware Development in 2023, I led the mechanical,
+          electrical, and firmware teams building live iGaming hardware platforms from
+          the ground up — including a patent-pending lighted gaming table design. Sands
+          <a href="https://www.casino.org/news/las-vegas-sands-powers-off-igaming-experiment/" target="_blank" rel="noopener">shut down the iGaming division</a>
+          in November 2025.
+        </p>
+
+        <div class="about-meta" style="margin-top:2.5rem;">
+          <h3>Education</h3>
+          <p>
+            B.S. Entertainment Engineering &amp; Design<br />
+            <a href="https://www.unlv.edu/eed" target="_blank" rel="noopener">University of Nevada, Las Vegas</a> · 2013
+          </p>
+          <p>
+            A.A. — College of Southern Nevada · 2009
+          </p>
+
+          <h3>Experience</h3>
+          <p>
+            <strong>Sands Digital Services</strong> — Las Vegas Sands<br />
+            Director, Hardware Development — iGaming<br />
+            <span style="font-size:0.8rem;">Sep 2023 – Nov 2025</span><br />
+            <span style="font-size:0.78rem;color:#666;">↑ promoted from Hardware Engineer · Jan 2022</span>
+          </p>
+          <p>
+            <strong>Scientific Games</strong> (Light &amp; Wonder)<br />
+            Product Manager, PTG/Progressives<br />
+            <span style="font-size:0.8rem;">Jul 2018 – Jan 2022</span><br />
+            <span style="font-size:0.78rem;color:#666;">↑ promoted from Associate Product Manager · Feb 2018</span>
+          </p>
+          <p>
+            <strong>Tech Art, Inc.</strong> — Table Games Solutions<br />
+            Designer &amp; Engineer<br />
+            <span style="font-size:0.78rem;color:#666;">Acquired by Scientific Games, 2018</span>
+          </p>
+
+          <h3>Achievements</h3>
+
+          <p class="achieve-sub">Awards</p>
+          <p>
+            Entertainment Engineering &amp; Design Prize<br />
+            Commercial Potential Award — 1st Place<br />
+            <span style="font-size:0.8rem;">UNLV College of Engineering, Fall 2013</span>
+          </p>
+
+          <p class="achieve-sub">Patents</p>
+          <p>
+            <a href="https://patents.google.com/patent/US8567784B2/en" target="_blank" rel="noopener">US8567784B2</a><br />
+            Integrated blackjack hole card readers and chip racks<br />
+            <span style="font-size:0.8rem;">Tech Art, Inc. · Granted 2013</span>
+          </p>
+          <p>
+            <a href="https://patents.google.com/patent/US20250118146A1/en" target="_blank" rel="noopener">US20250118146A1</a>
+            <span class="patent-pending">Pending</span><br />
+            Lighted Gaming Table<br />
+            <span style="font-size:0.8rem;">Las Vegas Sands · Filed 2025</span>
+          </p>
+
+          <p class="achieve-sub" style="opacity:0.35;">Someday</p>
+          <p style="opacity:0.3;font-style:italic;font-size:0.85rem;">
+            Nobel Peace Prize<br />
+            <span style="font-size:0.78rem;">Stockholm · TBD</span>
+          </p>
+        </div>
       </div>
-    </div>
-  </section>
+
+    </section>
+  </div>
 
   <hr class="divider" />
 
   <!-- CONTACT -->
   <section id="contact">
     <p class="section-label">Say hello</p>
-    <h2>Contact</h2>
+    <h2>Get in Touch</h2>
     <div class="contact-links">
       <a href="mailto:d.isaacs@idpd.us">d.isaacs@idpd.us</a>
       <a href="https://www.linkedin.com/in/dean-isaacs-89402a75" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://www.youtube.com/channel/UCVh5N2fvFx-u2ecmCOJkcZQ" target="_blank" rel="noopener">YouTube</a>
     </div>
+
+    <div data-fs-success class="form-status success">Message sent — I'll be in touch soon.</div>
+    <div data-fs-error class="form-status error"></div>
+
+    <form class="contact-form" id="contact-form">
+      <div class="form-row">
+        <div class="field-wrap">
+          <input type="text" name="name" placeholder="Your name" required data-fs-field />
+          <span data-fs-error="name" class="field-error"></span>
+        </div>
+        <div class="field-wrap">
+          <input type="email" name="email" placeholder="Your email" required data-fs-field />
+          <span data-fs-error="email" class="field-error"></span>
+        </div>
+      </div>
+      <input type="text" name="subject" placeholder="Subject" data-fs-field />
+      <div class="field-wrap">
+        <textarea name="message" placeholder="What's on your mind?" required data-fs-field></textarea>
+        <span data-fs-error="message" class="field-error"></span>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary" data-fs-submit-btn>Send Message</button>
+      </div>
+    </form>
   </section>
 
   <footer>
-    &copy; 2026 Dean Isaacs · idpd.us — built with Claude
+    &copy; 2026 Dean Isaacs · idpd.us — built with Claudes #1 fan... Deanie Weanie :)
   </footer>
 
   <script>
+    var lbImages = [], lbIndex = 0;
+
     function openLightbox(img) {
-      document.getElementById('lightbox-img').src = img.src;
-      document.getElementById('lightbox-img').alt = img.alt;
+      // Build the full set for this card: cover first, then gallery images
+      var card = img.closest('.card');
+      if (card) {
+        var cover = card.querySelector('.card-img');
+        var galleryImgs = Array.from(card.querySelectorAll('.card-gallery img'));
+        lbImages = (cover ? [cover] : []).concat(galleryImgs);
+      } else {
+        lbImages = [img];
+      }
+      lbIndex = Math.max(0, lbImages.indexOf(img));
+      renderLightbox();
       document.getElementById('lightbox').classList.add('open');
     }
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+
+    function renderLightbox() {
+      var img = lbImages[lbIndex];
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox-img').alt = img.alt;
+      document.getElementById('lb-prev').style.visibility = lbIndex > 0 ? 'visible' : 'hidden';
+      document.getElementById('lb-next').style.visibility = lbIndex < lbImages.length - 1 ? 'visible' : 'hidden';
+      document.getElementById('lb-counter').textContent =
+        lbImages.length > 1 ? (lbIndex + 1) + ' / ' + lbImages.length : '';
+    }
+
+    function lightboxNav(dir) {
+      lbIndex = Math.max(0, Math.min(lbImages.length - 1, lbIndex + dir));
+      renderLightbox();
+    }
+
+    document.getElementById('lb-close').addEventListener('click', function() {
+      document.getElementById('lightbox').classList.remove('open');
     });
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+    document.addEventListener('keydown', function(e) {
+      if (!document.getElementById('lightbox').classList.contains('open')) return;
+      if (e.key === 'Escape')     document.getElementById('lightbox').classList.remove('open');
+      if (e.key === 'ArrowLeft')  lightboxNav(-1);
+      if (e.key === 'ArrowRight') lightboxNav(1);
+    });
+
+    // Scroll-reveal for section decorative assets, BG images, and the about panel
+    const revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        } else {
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.section-deco, .section-bg-img, .about-img-panel').forEach(function(el) {
+      revealObserver.observe(el);
+    });
+
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#contact-form', formId: 'xeevnvye' });
+
+    // Dynamic project card rendering from projects.json
+    function buildCard(project) {
+      var folder = project.folder || '';
+      var hasCover = project.cover && folder;
+      var hasGallery = project.gallery && project.gallery.length > 0;
+
+      var imgHtml = '';
+      if (hasCover) {
+        imgHtml = '<img class="card-img" src="' + folder + '/' + project.cover + '" alt="' + project.title + '" onclick="openLightbox(this)" />';
+      }
+
+      var galleryHtml = '';
+      if (hasGallery) {
+        galleryHtml = '<div class="card-gallery">';
+        project.gallery.forEach(function(item) {
+          var caption = item.caption || '';
+          galleryHtml += '<figure class="gallery-item">' +
+            '<img src="' + folder + '/' + item.file + '" alt="' + caption + '" onclick="openLightbox(this)" />' +
+            (caption ? '<figcaption>' + caption + '</figcaption>' : '') +
+            '</figure>';
+        });
+        galleryHtml += '</div>';
+      }
+
+      var awardsHtml = '';
+      if (project.awards && project.awards.length > 0) {
+        awardsHtml = '<ul class="card-awards">';
+        project.awards.forEach(function(a) {
+          awardsHtml += '<li>' + a + '</li>';
+        });
+        awardsHtml += '</ul>';
+      }
+
+      var titleHtml = project.link
+        ? '<h3><a href="' + project.link + '" target="_blank" rel="noopener">' + project.title + '</a></h3>'
+        : '<h3>' + project.title + '</h3>';
+
+      return '<div class="card">' +
+        imgHtml +
+        '<div class="card-body">' +
+          '<p class="card-tag">' + (project.tag || '') + '</p>' +
+          titleHtml +
+          '<p>' + (project.description || '') + '</p>' +
+          awardsHtml +
+        '</div>' +
+        galleryHtml +
+      '</div>';
+    }
+
+    var projectsData = {
+      "casino": [
+        {
+          "title": "Chip Tray with Hole Card Reader",
+          "tag": "Table Games Solutions / Tech Art",
+          "description": "Integrated a hole card reader into a casino chip tray. Principal designer for the reader integration and co-designer of a dual-cam locking cover that rivals any existing cover in security. One of the most popular chip trays in casinos — instrumental in Scientific Games' 2018 acquisition of Tech Art, Inc.",
+          "folder": "images/casino/chip-tray",
+          "cover": "00-cover.jpg",
+          "gallery": [],
+          "awards": ["Acquired by Scientific Games 2018"]
+        },
+        {
+          "title": "Express Layout Change",
+          "tag": "UNLV Senior Design · Fall 2013",
+          "description": "A belt-like system that secures gaming table felt without staples, eliminating a labor-intensive multi-person installation process. Lets a single technician swap table layouts quickly on the casino floor.",
+          "folder": "images/casino/express-layout",
+          "cover": "00-cover.jpg",
+          "gallery": [],
+          "awards": ["Entertainment Engineering & Design Prize", "Commercial Potential Award — 1st Place"],
+          "link": "https://oasis.library.unlv.edu/coe_senior_projects/17/"
+        }
+      ],
+      "maker": [
+        {
+          "title": "3rd Gen 4Runner Corner Lights",
+          "tag": "Electronics · Fabrication",
+          "description": "Custom front turning/clearance lights across multiple client-spec iterations. 3D design, plastic fabrication, 3D-printed mold tooling for casting refraction lenses, PCB design, and microcontroller programming.",
+          "folder": "images/maker/corner-lights",
+          "cover": "00-cover.jpg",
+          "gallery": []
+        },
+        {
+          "title": "Tiger Zord Tailgate Emblem",
+          "tag": "3D Modeling · Fabrication",
+          "description": "Converted 2D artwork into a 3D model, prototyped via 3D printing, then produced a waterproofed final version installed on a vehicle tailgate.",
+          "folder": "images/maker/tiger-zord",
+          "cover": "00-cover.jpg",
+          "gallery": []
+        },
+        {
+          "title": "3D Printer Filament Dryer",
+          "tag": "Fusion 360 · Tutorial",
+          "description": "Filament drying system combining off-the-shelf parts with custom 3D-printed components designed in Fusion 360. Parts on Thingiverse; full build tutorial on YouTube.",
+          "folder": "images/maker/filament-dryer",
+          "cover": "00-cover.jpg",
+          "gallery": []
+        }
+      ],
+      "designs": [
+        {
+          "title": "16-Foot Holiday Sleigh Prop",
+          "tag": "City of North Las Vegas",
+          "description": "Santa sleigh for the City of North Las Vegas Winter Holiday Display at Silver Mesa Recreation Center. Wheelchair accessible, engineered to disassemble and store between seasons.",
+          "folder": "images/designs/sleigh",
+          "cover": "00-cover.jpg",
+          "gallery": []
+        },
+        {
+          "title": "Lotus Esprit V8 Engine Cover Insert",
+          "tag": "Composite Materials",
+          "description": "Transparent engine cover redesign to showcase the V8. Fiberglass and polyester resin composite with polycarbonate louvers engineered to withstand engine vibration.",
+          "folder": "images/designs/lotus",
+          "cover": "00-cover.jpg",
+          "gallery": []
+        },
+        {
+          "title": "Miller Lodge Pool Table Light",
+          "tag": "Custom Lighting",
+          "description": "Custom lighting fixture for a log cabin setting. Graphics and construction style matched to the rustic aesthetic of the surroundings.",
+          "folder": "images/designs/pool-table-light",
+          "cover": "00-cover.jpg",
+          "gallery": []
+        },
+        {
+          "title": "10-Foot Mickey Mouse Ears Balloon Structure",
+          "tag": "Installation",
+          "description": "Large-scale balloon installation standing 10 feet tall with Mickey Mouse ears silhouette and full color base columns.",
+          "folder": "images/designs/balloon",
+          "cover": "00-cover.jpg",
+          "gallery": []
+        },
+        {
+          "title": "Custom Bottle Display Shelving",
+          "tag": "Millwork",
+          "description": "Bespoke wall-mounted shelving units designed and fabricated for a large bottle display collection.",
+          "folder": "images/designs/shelving",
+          "cover": "00-cover.jpg",
+          "gallery": []
+        }
+      ],
+      "fun": [
+        {
+          "title": "Gingerbread Holiday Decoration",
+          "tag": "Holiday · Fabrication",
+          "description": "My daughter wanted cookies in the front yard — so we made gingerbread people. The characters, colors, and creative direction were entirely hers. Built on structural pipe frames with architectural foam, finished to survive wind and multiple seasons outdoors.",
+          "folder": "images/fun/gingerbread",
+          "cover": "00-cover.png",
+          "gallery": []
+        },
+        {
+          "title": "Oversized Christmas Lights",
+          "tag": "Holiday · Lighting",
+          "description": "My daughter wanted to recycle, so we turned small cola bottles into giant Christmas lights. I handled the light fabrication and wiring; she handled project management — her usual role on family builds.",
+          "folder": "images/fun/christmas-lights",
+          "cover": "00-cover.png",
+          "gallery": [
+            { "file": "01-lights-test.png", "caption": "Light test" }
+          ]
+        },
+        {
+          "title": "Animated Paper Mache Pumpkin",
+          "tag": "Halloween · Animatronics · Arduino",
+          "description": "My daughter wanted to carve pumpkins way too early in the season — Halloween is serious business in our house. We made a deal: we'd build them early, but no fruit allowed. Starting from a plastic pumpkin in the garage as a base form, we built everything from scratch using paper mache. I adapted eye movement mechanics from Thingiverse, wrote custom code for randomized eye movements and candle-flicker LEDs, and implemented it all on an Arduino Nano. She took on the role of project manager and creative director — making all the important calls: the shape, exactly how angry it looks, the eye movement style, body color, and LED glow color. I handled the engineering. She handled everything that actually mattered.",
+          "folder": "images/fun/pumpkin",
+          "cover": "00-cover.png",
+          "gallery": [
+            { "file": "01-base.png",        "caption": "Paper mache base" },
+            { "file": "02-eyes-paint.png",   "caption": "Painting the eyes" },
+            { "file": "03-eyes-done.png",    "caption": "Eyes complete" },
+            { "file": "04-feature-test.png", "caption": "Mechanism test" },
+            { "file": "05-3d-features.png",  "caption": "3D printed parts" },
+            { "file": "06-papertowel.png",   "caption": "Texture layer" },
+            { "file": "07-primer.png",       "caption": "Primed" },
+            { "file": "08-halloween.png",    "caption": "Halloween night" }
+          ]
+        }
+      ]
+    };
+
+    (function() {
+      ['fun', 'casino', 'maker', 'designs'].forEach(function(section) {
+        var grid = document.getElementById('grid-' + section);
+        if (!grid || !projectsData[section]) return;
+        grid.innerHTML = projectsData[section].map(buildCard).join('');
+      });
+    })();
+
+    // ——— EASTER EGG: DevTools console message ———
+    (function() {
+      var s1 = 'font-size:1.6rem;font-weight:800;color:#7c6bff;';
+      var s2 = 'font-size:0.95rem;color:#00e5ff;';
+      var s3 = 'font-size:0.85rem;color:#888;';
+      var s4 = 'font-size:0.78rem;color:#555;font-style:italic;';
+      console.log('%c👋 Oh hey — you found the back door.', s1);
+      console.log('%cNot much to see here. Seriously. Just vibes and spaghetti.', s2);
+      console.log('%c⚠️  Friendly disclaimer: don\'t steal from the poor.\n   Build your own stuff. It\'s more fun anyway. 🔧', s3);
+      console.log('%c— Built with love, structural pipe, and architectural foam.\n   Deanie Weanie approved ✅', s4);
+    })();
+
+    // ——— EASTER EGG: Hidden PM credit ———
+    function revealEmelia() {
+      var el = document.getElementById('pm-emelia');
+      el.style.color = '#7c6bff';
+      el.style.textShadow = '0 0 8px rgba(124,107,255,0.6)';
+      el.style.cursor = 'default';
+      launchCandy();
+    }
+
+    // ——— EASTER EGG: Logo click 5× = candy rain ———
+    var candy = ['🍬','🍭','🍫','🍡','🍦','🍩','🎉','⭐'];
+    function launchCandy() {
+      for (var i = 0; i < 60; i++) {
+        (function(i) {
+          setTimeout(function() {
+            var el = document.createElement('span');
+            el.textContent = candy[Math.floor(Math.random() * candy.length)];
+            el.style.cssText = [
+              'position:fixed',
+              'top:-2rem',
+              'left:' + Math.random() * 100 + 'vw',
+              'font-size:' + (1.2 + Math.random() * 1.4) + 'rem',
+              'pointer-events:none',
+              'z-index:9999',
+              'transition:transform ' + (1.8 + Math.random() * 1.4) + 's ease-in, opacity 0.4s ease 1.6s',
+              'opacity:1'
+            ].join(';');
+            document.body.appendChild(el);
+            requestAnimationFrame(function() {
+              requestAnimationFrame(function() {
+                el.style.transform = 'translateY(' + (110 + Math.random() * 30) + 'vh) rotate(' + (Math.random() * 720 - 360) + 'deg)';
+                el.style.opacity = '0';
+              });
+            });
+            setTimeout(function() { el.remove(); }, 3500);
+          }, i * 40);
+        })(i);
+      }
+    }
+
+    (function() {
+      var clicks = 0, timer;
+      document.querySelector('.logo').addEventListener('click', function() {
+        clearTimeout(timer);
+        clicks++;
+        timer = setTimeout(function() { clicks = 0; }, 1500);
+        if (clicks >= 5) { clicks = 0; launchCandy(); }
+      });
+    })();
   </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 </body>
 </html>
