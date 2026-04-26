@@ -17,7 +17,7 @@
       "cover": "00-cover.jpg",
       "gallery": [],
       "awards": ["Entertainment Engineering & Design Prize", "Commercial Potential Award — 1st Place"],
-      "link": "https://oasis.library.unlv.edu/coe_senior_projects/17/"
+      "tag_link": "https://oasis.library.unlv.edu/coe_senior_projects/17/"
     }
   ],
 
@@ -41,10 +41,11 @@
     {
       "title": "3D Printer Filament Dryer",
       "tag": "Fusion 360 · Tutorial",
-      "description": "Filament drying system combining off-the-shelf parts with custom 3D-printed components designed in Fusion 360. Parts on Thingiverse; full build tutorial on YouTube.",
+      "description": "Filament drying system combining off-the-shelf parts with custom 3D-printed components designed in Fusion 360. <a href=\"https://www.thingiverse.com/thing:4338542\" target=\"_blank\" rel=\"noopener\">Parts on Thingiverse</a>; full build tutorial on YouTube.",
       "folder": "images/maker/filament-dryer",
       "cover": "00-cover.jpg",
-      "gallery": []
+      "gallery": [],
+      "video": "https://www.youtube.com/watch?v=i-LltOYBiwU"
     }
   ],
 

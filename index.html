@@ -4,6 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dean Isaacs — Designer & Engineer</title>
+
+  <!-- Link preview / Open Graph -->
+  <meta property="og:title"       content="Dean Isaacs — Designer & Engineer" />
+  <meta property="og:description" content="Entertainment engineer turned product designer. Award-winning hardware, custom fabrication, embedded electronics. I build things because I love to." />
+  <meta property="og:image"       content="https://idpd.us/images/2206358_preview-1.png" />
+  <meta property="og:url"         content="https://idpd.us" />
+  <meta property="og:type"        content="website" />
+  <meta name="twitter:card"       content="summary_large_image" />
+  <meta name="twitter:image"      content="https://idpd.us/images/2206358_preview-1.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -318,6 +327,8 @@
     }
     .card h3 { font-size: 1.02rem; margin-bottom: 0.5rem; }
     .card p { font-size: 0.87rem; color: var(--muted); line-height: 1.6; flex: 1; }
+    .card p a { color: var(--accent2); text-decoration: none; }
+    .card p a:hover { text-decoration: underline; }
     .awards { margin-top: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
     .award {
       display: inline-block;
@@ -996,6 +1007,10 @@
         awardsHtml += '</ul>';
       }
 
+      var tagHtml = project.tag_link
+        ? '<p class="card-tag"><a href="' + project.tag_link + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">' + (project.tag || '') + '</a></p>'
+        : '<p class="card-tag">' + (project.tag || '') + '</p>';
+
       var titleHtml = project.link
         ? '<h3><a href="' + project.link + '" target="_blank" rel="noopener">' + project.title + '</a></h3>'
         : '<h3>' + project.title + '</h3>';
@@ -1007,7 +1022,7 @@
       return '<div class="card">' +
         imgHtml +
         '<div class="card-body">' +
-          '<p class="card-tag">' + (project.tag || '') + '</p>' +
+          tagHtml +
           titleHtml +
           '<p>' + (project.description || '') + '</p>' +
           awardsHtml +
@@ -1036,7 +1051,7 @@
           "cover": "00-cover.jpg",
           "gallery": [],
           "awards": ["Entertainment Engineering & Design Prize", "Commercial Potential Award — 1st Place"],
-          "link": "https://oasis.library.unlv.edu/coe_senior_projects/17/",
+          "tag_link": "https://oasis.library.unlv.edu/coe_senior_projects/17/",
           "video": "https://www.youtube.com/watch?v=706MEM-AROY"
         }
       ],
@@ -1060,10 +1075,11 @@
         {
           "title": "3D Printer Filament Dryer",
           "tag": "Fusion 360 · Tutorial",
-          "description": "Filament drying system combining off-the-shelf parts with custom 3D-printed components designed in Fusion 360. Parts on Thingiverse; full build tutorial on YouTube.",
+          "description": "Filament drying system combining off-the-shelf parts with custom 3D-printed components designed in Fusion 360. <a href=\"https://www.thingiverse.com/thing:4338542\" target=\"_blank\" rel=\"noopener\">Parts on Thingiverse</a>; full build tutorial on YouTube.",
           "folder": "images/maker/filament-dryer",
           "cover": "00-cover.jpg",
-          "gallery": []
+          "gallery": [],
+          "video": "https://www.youtube.com/watch?v=i-LltOYBiwU"
         }
       ],
       "designs": [
@@ -1235,6 +1251,14 @@
         }
       });
     }
+    // Hide nav when Netlify Identity token is in the URL (invite / password reset flow)
+    (function() {
+      var h = window.location.hash;
+      if (h && (h.indexOf('invite_token') !== -1 || h.indexOf('recovery_token') !== -1 || h.indexOf('confirmation_token') !== -1)) {
+        var nav = document.querySelector('nav');
+        if (nav) nav.style.display = 'none';
+      }
+    })();
   </script>
 </body>
 </html>
