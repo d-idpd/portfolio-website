@@ -94,20 +94,55 @@
 
   "fun": [
     {
+      "title": "RC Cars",
+      "tag": "Hobby · Electronics · Fabrication",
+      "description": "A growing collection of RC builds — custom bodies, mounts, and modifications. Each one its own project.",
+      "type": "project-gallery",
+      "folder": "images/fun/rc-cars",
+      "cover": "00-cover.png",
+      "projects": [
+        {
+          "title": "Bolt-On Body — Losi Micro-B",
+          "tag": "3D Design · Thingiverse",
+          "description": "Roll cage that bolts onto the Losi Micro-B using the <a href=\"https://www.thingiverse.com/thing:7342924\" target=\"_blank\" rel=\"noopener\">bolt-on body mount adapter</a> and <a href=\"https://www.thingiverse.com/thing:7342941\" target=\"_blank\" rel=\"noopener\">front magnet mounts</a> — both designed by me.",
+          "folder": "images/fun/rc-cars/bolt-on-body",
+          "cover": null,
+          "gallery": []
+        },
+        {
+          "title": "Micro-B Body Adaptation",
+          "tag": "INJORA BUG24 · Losi Micro-B",
+          "description": "INJORA BUG24 body with roll cage adapted from 1/24 Axial SCX24 to Losi Micro-B. Rear uses the <a href=\"https://www.thingiverse.com/thing:7342924\" target=\"_blank\" rel=\"noopener\">bolt-on body mount</a> (spoiler and mount removed); front is held by the <a href=\"https://www.thingiverse.com/thing:7342941\" target=\"_blank\" rel=\"noopener\">magnet holder for front body</a>.",
+          "folder": "images/fun/rc-cars/micro-b-body",
+          "cover": "00-cover.png",
+          "gallery": [
+            { "file": "01-closeup.png",            "caption": "Close-up" },
+            { "file": "02-unhinged-back.png",       "caption": "Rear mount" },
+            { "file": "03-front-magnets.png",       "caption": "Front magnets" },
+            { "file": "04-front-magnets-body.png",  "caption": "Front magnets with body" }
+          ]
+        }
+      ]
+    },
+    {
       "title": "Gingerbread Holiday Decoration",
       "tag": "Holiday · Fabrication",
-      "description": "Large-scale gingerbread-themed holiday decorations for family and community displays. Structural design built to survive outdoor conditions and repeated seasonal assembly.",
+      "description": "My daughter wanted cookies in the front yard — so we made gingerbread people. The characters, colors, and creative direction were entirely hers. Built on structural pipe frames with architectural foam, finished to survive wind and multiple seasons outdoors.",
       "folder": "images/fun/gingerbread",
-      "cover": null,
-      "gallery": []
+      "cover": "00-cover.png",
+      "gallery": [
+        { "file": "01-display.png", "caption": "On display" }
+      ]
     },
     {
       "title": "Oversized Christmas Lights",
       "tag": "Holiday · Lighting",
-      "description": "Custom giant string-light props — fabricated oversized bulbs with internal lighting for outdoor holiday displays. Designed for maximum visual impact and weather durability.",
+      "description": "My daughter wanted to recycle, so we turned small cola bottles into giant Christmas lights. I handled the light fabrication and wiring; she handled project management — her usual role on family builds.",
       "folder": "images/fun/christmas-lights",
-      "cover": null,
-      "gallery": []
+      "cover": "00-cover.png",
+      "gallery": [
+        { "file": "01-lights-test.png", "caption": "Light test" }
+      ]
     },
     {
       "title": "Animated Paper Mache Pumpkin",

@@ -169,6 +169,17 @@
       color: var(--accent);
       margin-bottom: 0.5rem;
     }
+    .section-intro {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 680px;
+      margin-bottom: 2rem;
+      border-left: 2px solid var(--border);
+      padding-left: 1rem;
+    }
+    .section-intro a { color: var(--accent2); text-decoration: none; }
+    .section-intro a:hover { text-decoration: underline; }
     h2 {
       font-size: 2rem;
       font-weight: 700;
@@ -591,6 +602,148 @@
       z-index: 2;
     }
     .lb-close:hover { background: rgba(255,255,255,0.22); }
+    /* PROJECT GALLERY MODAL — two-level drill-down */
+    .pg-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 800;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .pg-overlay.open { display: flex; }
+    .pg-modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      width: min(92vw, 680px);
+      max-height: 82vh;
+      overflow-y: auto;
+      padding: 1.75rem;
+      position: relative;
+    }
+    .pg-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      gap: 0.75rem;
+    }
+    .pg-header h3 { font-size: 1.2rem; flex: 1; }
+    .pg-back {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.82rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 5px;
+      cursor: pointer;
+      white-space: nowrap;
+      display: none;
+    }
+    .pg-back:hover { color: var(--text); }
+    .pg-detail-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.6rem;
+    }
+    .pg-detail-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+    .pg-detail-desc a { color: var(--accent2); text-decoration: none; }
+    .pg-detail-desc a:hover { text-decoration: underline; }
+    .pg-thumbs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .pg-thumb {
+      cursor: zoom-in;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .pg-thumb:hover { border-color: var(--accent); transform: scale(1.03); }
+    .pg-thumb img {
+      width: 100px;
+      height: 75px;
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 480px) {
+      .pg-thumb img { width: 80px; height: 60px; }
+    }
+    .pg-close {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 1rem;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .pg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .pg-item {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+      background: var(--bg);
+    }
+    .pg-item:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .pg-item img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+    }
+    .pg-item-name {
+      padding: 0.5rem 0.6rem;
+      font-size: 0.78rem;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .pg-item-tag {
+      padding: 0 0.6rem 0.5rem;
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+    .pg-no-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+    /* Gallery-type card hint */
+    .card-gallery-hint {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
     .lb-counter {
       position: absolute;
       bottom: 1.2rem;
@@ -614,6 +767,25 @@
     <button class="lb-nav" data-dir="1"  id="lb-next" onclick="lightboxNav(1)">&#8250;</button>
     <button class="lb-close" id="lb-close">&#x2715;</button>
     <span class="lb-counter" id="lb-counter"></span>
+  </div>
+
+  <!-- PROJECT GALLERY MODAL -->
+  <div class="pg-overlay" id="pg-overlay">
+    <div class="pg-modal" id="pg-modal">
+      <div class="pg-header">
+        <button class="pg-back" id="pg-back" onclick="showPGGrid()">&#8592; Back</button>
+        <h3 id="pg-title"></h3>
+        <button class="pg-close" onclick="closePG()">&#x2715;</button>
+      </div>
+      <div id="pg-grid-view">
+        <div class="pg-grid" id="pg-grid"></div>
+      </div>
+      <div id="pg-detail-view" style="display:none">
+        <p class="pg-detail-tag" id="pg-detail-tag"></p>
+        <p class="pg-detail-desc" id="pg-detail-desc"></p>
+        <div class="pg-thumbs" id="pg-thumbs"></div>
+      </div>
+    </div>
   </div>
 
   <nav>
@@ -714,6 +886,12 @@
     <section id="projects">
       <p class="section-label">Product Development</p>
       <h2>Casino &amp; Commercial Products</h2>
+      <p class="section-intro">
+        Over the years I've worked across table progressives, table hardware, gaming peripherals,
+        and live iGaming platforms — from concept through production. Most commercial work is
+        confidential and can't be shown publicly, but a handful of projects and recognitions
+        are listed in the <a href="#about">About section</a> — including patents and patents pending.
+      </p>
       <div class="grid" id="grid-casino"></div>
     </section>
   </div>
@@ -768,10 +946,11 @@
         <h2>About Me</h2>
 
         <p class="about-text">
-          I'm a designer and engineer with roots in entertainment engineering and
-          product development. My interest in making things physical came early —
-          my father worked in custom plastics fabrication and design, and my mother
-          in decorative arts and education.
+          I'm a designer and engineer who genuinely enjoys solving problems —
+          finding the solution is as satisfying as building it. My roots are in
+          entertainment engineering and product development, and my interest in
+          making things physical came early — my father worked in custom plastics
+          fabrication and design, and my mother in decorative arts and education.
         </p>
         <p class="about-text" style="margin-top:1rem;">
           I joined Tech Art, Inc. — a table games solutions company — full time
@@ -797,7 +976,8 @@
           <strong>Sands Digital Services</strong> division as a hardware engineer.
           Promoted to Director of Hardware Development in 2023, I led the mechanical,
           electrical, and firmware teams building live iGaming hardware platforms from
-          the ground up — including a patent-pending lighted gaming table design. Sands
+          the ground up — including a patent-pending lighted gaming table design —
+          reporting to executive leadership throughout. Sands
           <a href="https://www.casino.org/news/las-vegas-sands-powers-off-igaming-experiment/" target="_blank" rel="noopener">shut down the iGaming division</a>
           in November 2025.
         </p>
@@ -828,6 +1008,7 @@
           <p>
             <strong>Tech Art, Inc.</strong> — Table Games Solutions<br />
             Designer &amp; Engineer<br />
+            <span style="font-size:0.8rem;">Jun 2004 – Jan 2018</span><br />
             <span style="font-size:0.78rem;color:#666;">Acquired by Scientific Games, 2018</span>
           </p>
 
@@ -871,7 +1052,7 @@
     <p class="section-label">Say hello</p>
     <h2>Get in Touch</h2>
     <div class="contact-links">
-      <a href="mailto:d.isaacs@idpd.us">d.isaacs@idpd.us</a>
+
       <a href="https://www.linkedin.com/in/dean-isaacs-89402a75" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://www.youtube.com/channel/UCVh5N2fvFx-u2ecmCOJkcZQ" target="_blank" rel="noopener">YouTube</a>
     </div>
@@ -902,7 +1083,7 @@
   </section>
 
   <footer>
-    &copy; 2026 Dean Isaacs · idpd.us — built with Claudes #1 fan... Deanie Weanie :)
+    &copy; 2026 Dean Isaacs · idpd.us
   </footer>
 
   <script>
@@ -925,8 +1106,9 @@
 
     function renderLightbox() {
       var img = lbImages[lbIndex];
-      document.getElementById('lightbox-img').src = img.src;
-      document.getElementById('lightbox-img').alt = img.alt;
+      // supports both DOM img elements and plain {src, alt} objects
+      document.getElementById('lightbox-img').src = img.src || '';
+      document.getElementById('lightbox-img').alt = img.alt || '';
       document.getElementById('lb-prev').style.visibility = lbIndex > 0 ? 'visible' : 'hidden';
       document.getElementById('lb-next').style.visibility = lbIndex < lbImages.length - 1 ? 'visible' : 'hidden';
       document.getElementById('lb-counter').textContent =
@@ -945,10 +1127,81 @@
       if (e.target === this) this.classList.remove('open');
     });
     document.addEventListener('keydown', function(e) {
-      if (!document.getElementById('lightbox').classList.contains('open')) return;
-      if (e.key === 'Escape')     document.getElementById('lightbox').classList.remove('open');
-      if (e.key === 'ArrowLeft')  lightboxNav(-1);
-      if (e.key === 'ArrowRight') lightboxNav(1);
+      if (document.getElementById('lightbox').classList.contains('open')) {
+        if (e.key === 'Escape')     document.getElementById('lightbox').classList.remove('open');
+        if (e.key === 'ArrowLeft')  lightboxNav(-1);
+        if (e.key === 'ArrowRight') lightboxNav(1);
+      } else if (document.getElementById('pg-overlay').classList.contains('open')) {
+        if (e.key === 'Escape') closePG();
+      }
+    });
+
+    // PROJECT GALLERY — two-level: grid → detail (desc + thumbs) → lightbox
+    var _pgStore = {}, _pgCurrentId = null, _pgCurrentImages = [];
+
+    function openPG(id) {
+      _pgCurrentId = id;
+      showPGGrid();
+      document.getElementById('pg-overlay').classList.add('open');
+    }
+
+    function showPGGrid() {
+      var data = _pgStore[_pgCurrentId];
+      document.getElementById('pg-title').textContent = data.title;
+      document.getElementById('pg-back').style.display = 'none';
+      var grid = document.getElementById('pg-grid');
+      grid.innerHTML = data.projects.map(function(proj, i) {
+        var src = proj.cover ? imgSrc(proj.cover, proj.folder || '') : '';
+        return '<div class="pg-item" onclick="openPGDetail(' + i + ')">' +
+          (src ? '<img src="' + src + '" alt="' + (proj.title || '') + '" />'
+               : '<div class="pg-no-img">📷</div>') +
+          '<div class="pg-item-name">' + (proj.title || 'Project ' + (i+1)) + '</div>' +
+          (proj.tag ? '<div class="pg-item-tag">' + proj.tag + '</div>' : '') +
+        '</div>';
+      }).join('');
+      document.getElementById('pg-grid-view').style.display = 'block';
+      document.getElementById('pg-detail-view').style.display = 'none';
+    }
+
+    function openPGDetail(index) {
+      var proj = _pgStore[_pgCurrentId].projects[index];
+      var folder = proj.folder || '';
+
+      document.getElementById('pg-title').textContent = proj.title || '';
+      document.getElementById('pg-detail-tag').textContent = proj.tag || '';
+      document.getElementById('pg-detail-desc').innerHTML = proj.description || '';
+      document.getElementById('pg-back').style.display = 'inline-flex';
+
+      _pgCurrentImages = [];
+      if (proj.cover) _pgCurrentImages.push({ src: imgSrc(proj.cover, folder), alt: proj.title || '' });
+      (proj.gallery || []).forEach(function(item) {
+        _pgCurrentImages.push({ src: imgSrc(item.file, folder), alt: item.caption || '' });
+      });
+
+      document.getElementById('pg-thumbs').innerHTML = _pgCurrentImages.map(function(img, i) {
+        return '<div class="pg-thumb" onclick="openPGLightbox(' + i + ')">' +
+          '<img src="' + img.src + '" alt="' + img.alt + '" />' +
+        '</div>';
+      }).join('');
+
+      document.getElementById('pg-grid-view').style.display = 'none';
+      document.getElementById('pg-detail-view').style.display = 'block';
+      document.getElementById('pg-modal').scrollTop = 0;
+    }
+
+    function openPGLightbox(index) {
+      lbImages = _pgCurrentImages;
+      lbIndex = index;
+      renderLightbox();
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    function closePG() {
+      document.getElementById('pg-overlay').classList.remove('open');
+    }
+
+    document.getElementById('pg-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closePG();
     });
 
     // Scroll-reveal for section decorative assets, BG images, and the about panel
@@ -976,6 +1229,21 @@
     }
 
     function buildCard(project) {
+      if (project.type === 'project-gallery') {
+        var pgId = 'pg_' + Math.random().toString(36).substr(2, 8);
+        _pgStore[pgId] = project;
+        var folder = project.folder || '';
+        var src = project.cover ? imgSrc(project.cover, folder) : '';
+        return '<div class="card" style="cursor:pointer" onclick="openPG(\'' + pgId + '\')">' +
+          (src ? '<img class="card-img" src="' + src + '" alt="' + project.title + '" />' : '') +
+          '<div class="card-body">' +
+            '<p class="card-tag">' + (project.tag || '') + '</p>' +
+            '<h3>' + project.title + '</h3>' +
+            '<p>' + (project.description || '') + '</p>' +
+            '<span class="card-gallery-hint">&#9654; View Projects</span>' +
+          '</div>' +
+        '</div>';
+      }
       var folder = project.folder || '';
       var hasCover = !!project.cover;
       var hasGallery = project.gallery && project.gallery.length > 0;
@@ -1126,6 +1394,37 @@
       ],
       "fun": [
         {
+          "title": "RC Cars",
+          "tag": "Hobby · Electronics · Fabrication",
+          "description": "A growing collection of RC builds — custom bodies, mounts, and modifications. Each one its own project.",
+          "type": "project-gallery",
+          "folder": "images/fun/rc-cars",
+          "cover": "00-cover.png",
+          "projects": [
+            {
+              "title": "Bolt-On Body — Losi Micro-B",
+              "tag": "3D Design · Thingiverse",
+              "description": "Roll cage that bolts onto the Losi Micro-B using the <a href=\"https://www.thingiverse.com/thing:7342924\" target=\"_blank\" rel=\"noopener\">bolt-on body mount adapter</a> and <a href=\"https://www.thingiverse.com/thing:7342941\" target=\"_blank\" rel=\"noopener\">front magnet mounts</a> — both designed by me.",
+              "folder": "images/fun/rc-cars/bolt-on-body",
+              "cover": null,
+              "gallery": []
+            },
+            {
+              "title": "Micro-B Body Adaptation",
+              "tag": "INJORA BUG24 · Losi Micro-B",
+              "description": "INJORA BUG24 body with roll cage adapted from 1/24 Axial SCX24 to Losi Micro-B. Rear uses the <a href=\"https://www.thingiverse.com/thing:7342924\" target=\"_blank\" rel=\"noopener\">bolt-on body mount</a> (spoiler and mount removed); front is held by the <a href=\"https://www.thingiverse.com/thing:7342941\" target=\"_blank\" rel=\"noopener\">magnet holder for front body</a>.",
+              "folder": "images/fun/rc-cars/micro-b-body",
+              "cover": "00-cover.png",
+              "gallery": [
+                { "file": "01-closeup.png",           "caption": "Close-up" },
+                { "file": "02-unhinged-back.png",      "caption": "Rear mount" },
+                { "file": "03-front-magnets.png",      "caption": "Front magnets" },
+                { "file": "04-front-magnets-body.png", "caption": "Front magnets with body" }
+              ]
+            }
+          ]
+        },
+        {
           "title": "Gingerbread Holiday Decoration",
           "tag": "Holiday · Fabrication",
           "description": "My daughter wanted cookies in the front yard — so we made gingerbread people. The characters, colors, and creative direction were entirely hers. Built on structural pipe frames with architectural foam, finished to survive wind and multiple seasons outdoors.",
@@ -1186,7 +1485,7 @@
       console.log('%c👋 Oh hey — you found the back door.', s1);
       console.log('%cNot much to see here. Seriously. Just vibes and spaghetti.', s2);
       console.log('%c⚠️  Friendly disclaimer: don\'t steal from the poor.\n   Build your own stuff. It\'s more fun anyway. 🔧', s3);
-      console.log('%c— Built with love, structural pipe, and architectural foam.\n   Deanie Weanie approved ✅', s4);
+      console.log('%c— Built with love, structural pipe, and architectural foam.\n   Dean approved ✅', s4);
     })();
 
     // ——— EASTER EGG: Hidden PM credit ———
